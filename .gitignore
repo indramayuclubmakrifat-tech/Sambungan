@@ -1,0 +1,7 @@
+# Mengunci token rahasia clasp agar tidak bocor ke publik
+.clasfrc.json
+clasp.json
+
+# Menyembunyikan database dan modul lokal
+*.db
+node_modules/

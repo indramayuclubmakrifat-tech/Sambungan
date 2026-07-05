@@ -1,0 +1,6 @@
+**/*
+!**/*.gs
+!**/*.html
+!**/*.json
+google-cloud-sdk/**
+deploystack-nosql-client-server/**
