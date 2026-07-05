@@ -1,0 +1,17 @@
+{
+  "scriptId": "1HKU8wzG5i7ErIIydYmd3B-VixerEnwDnBgqIGbbiWYBk-GrkphnrzmL5",
+  "rootDir": "/home/u0_a421/nama_env_anda/Sambungan",
+  "projectId": "mystic-producer-497613-e3",
+  "scriptExtensions": [
+    ".js",
+    ".gs"
+  ],
+  "htmlExtensions": [
+    ".html"
+  ],
+  "jsonExtensions": [
+    ".json"
+  ],
+  "filePushOrder": [],
+  "skipSubdirectories": false
+}
