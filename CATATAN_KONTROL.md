@@ -1,5 +1,4 @@
 # 👑 LOG KONTROL SISTEM - INDRAMAYU CLUB
-
 Dokumen pelacak perubahan sirkuit, port, dan konfigurasi jaringan panggung digital.
 
 ---
@@ -24,10 +23,16 @@ Dokumen pelacak perubahan sirkuit, port, dan konfigurasi jaringan panggung digit
 *   Mematikan terowongan lama dan meluncurkan Cloudflare Tunnel baru ke port `8890`.
 *   Memperbarui target URL di `baruRAJA.html` menggunakan `sed` dan sukses di-push ke GitHub.
 
-
+y
 ### [2026-07-07] - Inisialisasi Sirkuit Audit Otomatis
 * **Lokasi**: `~/nama_env_anda/Sambungan/04_LOG_SISTEM_FOLDER`
 * **Backend**: `server_audit.py` berjalan stabil di **Port 8891** (Menggunakan Python global Termux).
 * **Jalur Terowongan**: Menggunakan SSH Remote Port Forwarding (`localhost.run`) untuk menghindari pemblokiran Signal 9 Android.
 * **URL Publik Audit**: `https://cdd040179189c1.lhr.life`
 * **Fungsi**: Siap menerima log audit, mutasi kas (potongan 5%), dan pelacakan riwayat aktivitas dari front-end.
+
+ 
+##PEMBERITAHUAN SISTEM]
+​* Jalur Audit Baru: https://86e3b290180f2f10-182-4-36-119.serveousercontent.com
+* ​Status: ONLINE & AUDIT MODE ACTIVE
+

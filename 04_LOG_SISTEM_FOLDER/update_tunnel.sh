@@ -4,16 +4,12 @@
 URL="https://guarantees-evident-responding-optimize.trycloudflare.com"
 
 echo "🔗 URL Tunnel Terkunci: $URL"
+# Ganti bagian git di update_tunnel.sh dengan ini:
+cd "$HOME/nama_env_anda/Sambungan"
+git add . 
+git commit -m "Auto-sync: Update tunnel & semua file sistem"
+git push origin main
 
-# 2. Update otomatis ke baruRAJA.html (bukan panggung_member.html)
-TARGET_FILE="$HOME/nama_env_anda/Sambungan/baruRAJA.html"
-
-if [ -f "$TARGET_FILE" ]; then
-    sed -i "s|https://[^\"']*\.trycloudflare\.com|$URL|g" "$TARGET_FILE"
-    echo "📝 baruRAJA.html berhasil disinkronkan ke URL baru!"
-else
-    echo "⚠️ File baruRAJA.html tidak ditemukan."
-fi
 
 # 3. Sinkronisasi Git Otomatis ke GitHub
 cd "$HOME/nama_env_anda/Sambungan"
@@ -28,3 +24,18 @@ else
 fi
 
 echo "✅ Proses sinkronisasi otomatis selesai!"
+# ... (setelah bagian echo "📝 baruRAJA.html berhasil...")
+
+# Coba Git Push, jika gagal, simpan ke log antrean
+echo "🔗 Mencoba sinkronisasi ke GitHub..."
+
+if git push origin main 2>/dev/null; then
+    echo "🚀 Sukses push pembaruan sirkuit ke GitHub!"
+else
+    echo "⚠️ Sinyal drop! Perubahan disimpan lokal. Akan dikirim saat koneksi stabil."
+    # Simpan URL ke file khusus agar tidak hilang
+    echo "$URL" > "$HOME/nama_env_anda/Sambungan/url_pending.log"
+fi
+
+echo "✅ Proses skrip selesai (Status: $([ -f "$HOME/nama_env_anda/Sambungan/url_pending.log" ] && echo 'PENDING' || echo 'SYNCED'))!"
+
