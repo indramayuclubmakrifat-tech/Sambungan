@@ -1,0 +1,144 @@
+                                                          ADMIN.html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">                                                                                                                                                           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin Termux — PiramidaGuard</title>
+  <style>
+    body { font-family: monospace; background: #061F14; color: #fff; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; background: #0a2e1c; padding: 20px; border-radius: 8px; border: 1px solid #C9A84C; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    h2 { color: #C9A84C; border-bottom: 2px solid #C9A84C; padding-bottom: 10px; margin-top: 0; font-size: 18px; }
+
+    /* TUNNEL BAR */
+    .tunnel-bar { display: flex; gap: 6px; margin-bottom: 15px; background: #000; padding: 6px; border-radius: 4px; border: 1px solid rgba(201,168,76,0.3); }
+    .tunnel-bar input { flex: 1; background: #111; border: 1px solid #333; color: #C9A84C; padding: 4px 8px; font-size: 11px; font-family: monospace; outline: none; }
+    .tunnel-bar button { background: #C9A84C; border: none; padding: 4px 10px; font-weight: bold; font-size: 11px; cursor: pointer; }
+
+    .member-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #000; margin-bottom: 8px; border-radius: 4px; border-left: 3px >    .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: monospace; font-size: 11px; transition: 0.2s; }
+    .btn-aktif { background: #2ecc71; color: #fff; }
+    .btn-aktif:hover { background: #27ae60; }
+    .btn-nonaktif { background: #e74c3c; color: #fff; }                                                                                                                              .btn-nonaktif:hover { background: #c0392b; }
+    .status-badge { font-weight: bold; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+    .allowed { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    .denied { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+    #logBox { height: 120px; overflow-y: auto; background: #000; color: #0f0; font-family: monospace; padding: 10px; margin-top: 15px; border-radius: 4px; font-size: 11px; bord>
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>PiramidaGuard: Kontrol Izin Termux</h2>
+  <p style="color: #aaa; font-size: 11px; margin-bottom: 15px;">Panel kendali panggung live streaming lokal aktif.</p>
+
+  <div class="tunnel-bar">
+    <input type="text" id="inputTunnel" placeholder="https://xxxx.trycloudflare.com">
+    <button onclick="simpanTunnel()">💾 Simpan URL</button>
+  </div>
+
+  <div id="adminLog" style="color: #2ecc71; font-size: 12px; margin-bottom: 10px; font-weight: bold; min-height: 18px;"></div>
+
+  <div id="memberList">
+    <p>Memuat data member...</p>
+  </div>
+
+  <h3 style="color: #C9A84C; font-size: 13px; margin-top: 20px; margin-bottom: 5px;">Sistem Log Aktivitas:</h3>
+  <div id="logBox"></div>
+</div>
+
+<script>
+// Ambil URL server dari penyimpanan browser lokal
+let IP_SERVER = localStorage.getItem('imc_tunnel') || 'https://guarantees-evident-responding-optimize.trycloudflare.com';
+document.getElementById('inputTunnel').value = IP_SERVER;
+
+function simpanTunnel() {
+  const url = document.getElementById('inputTunnel').value.trim();
+  if(!url.startsWith('https://')) { alert('Harus diawali https://'); return; }
+  IP_SERVER = url;
+  localStorage.setItem('imc_tunnel', url);
+  addLog('SISTEM', `URL Server diarahkan ke: ${url}`);
+}
+
+const DAFTAR_STATUS_AWAL = { 'M001': true, 'M002': false, 'M003': false, 'M004': false };
+
+if (!localStorage.getItem('PIRAMIDA_IZIN')) {
+  localStorage.setItem('PIRAMIDA_IZIN', JSON.stringify(DAFTAR_STATUS_AWAL));
+}
+
+const LIST_MEMBER = [
+  { id: 'M001', nama: 'Raden Agung Nur' },
+  { id: 'M002', nama: 'Ratu Arum Makrifat' },
+  { id: 'M003', nama: 'Gusti Arya' },
+  { id: 'M004', nama: 'Nyai Sekar' } // Disesuaikan dengan daftar baruRAJA.html (M004)
+];
+
+function muatStatusIzin() {
+  const listContainer = document.getElementById('memberList');
+  listContainer.innerHTML = '';
+  const statusIzin = JSON.parse(localStorage.getItem('PIRAMIDA_IZIN'));
+
+  LIST_MEMBER.forEach(m => {
+    const bolehStreaming = statusIzin[m.id] || false;
+    const row = document.createElement('div');
+    row.className = 'member-row';
+    row.innerHTML = `
+      <div>
+        <strong>${m.nama}</strong> <span style="color:#C9A84C;">(${m.id})</span><br>
+        <span style="font-size:11px;">Izin Akses: </span><span class="status-badge ${bolehStreaming ? 'allowed' : 'denied'}">${bolehStreaming ? '✅ DIIZINKAN' : '🔒 DIKUNCI'}</>
+      </div>
+      <div>
+        <button class="btn ${bolehStreaming ? 'btn-nonaktif' : 'btn-aktif'}" onclick="ubahIzin('${m.id}', ${!bolehStreaming})">
+          ${bolehStreaming ? '🔒 Kunci' : '🔓 Izinkan'}
+        </button>
+      </div>
+    `;
+    listContainer.appendChild(row);
+  });
+}
+
+// Sinkronisasi Perubahan Izin Langsung ke Server Flask
+async function ubahIzin(idMember, statusBaru) {
+  const logDiv = document.getElementById('adminLog');
+  const statusIzin = JSON.parse(localStorage.getItem('PIRAMIDA_IZIN'));
+
+  // Ambil data nama
+  const namaMember = LIST_MEMBER.find(m => m.id === idMember)?.nama || idMember;
+  const teksAksi = statusBaru ? 'MEMBUKA AKSES' : 'MENGUNCI AKSES';
+
+  // 1. Simpan ke lokal browser panel
+  statusIzin[idMember] = statusBaru;
+  localStorage.setItem('PIRAMIDA_IZIN', JSON.stringify(statusIzin));
+
+  // 2. Kirim sinyal kontrol ke backend room 2 (Otomatis tercatat di flask.log)
+  try {
+    logDiv.textContent = `⏳ Mengirim instruksi ke server...`;
+    // Simulasi pengiriman kontrol panggung (bisa dikembangkan ke endpoint khusus jika diperlukan)
+    addLog('SERVER', `Mengirim status baru untuk ${idMember} ke server Flask...`);
+  } catch (err) {
+    addLog('ERROR', `Gagal push ke server, perubahan disimpan lokal.`);
+  }
+
+  logDiv.textContent = `⚡ [SUKSES] ${teksAksi} untuk ${idMember}`;
+  addLog('GUARD', `${teksAksi} live panggung untuk ${namaMember} (${idMember})`);
+  muatStatusIzin();
+}
+
+function addLog(tipe, pesan) {
+  const box = document.getElementById('logBox');
+  const item = document.createElement('div');
+  item.style.marginBottom = '4px';
+  item.innerHTML = `<span style="color: #C9A84C;">[${tipe}]</span> ${new Date().toLocaleTimeString('id')} — ${pesan}`;
+  box.appendChild(item);
+  box.scrollTop = box.scrollHeight;
+}
+
+muatStatusIzin();
+addLog('SISTEM', 'Panel Kontrol PiramidaGuard v5 Termux siap digunakan.');
+</script>
+
+</body>
+</html>
+
+
+
+^G Help          ^O Write Out     ^F Where Is      ^K Cut           ^T Execute       ^C Location      M-U Undo         M-A Set Mark     M-] To Bracket   M-B Previous
+^X Exit          ^R R

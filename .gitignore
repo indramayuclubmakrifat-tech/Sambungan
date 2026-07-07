@@ -1,7 +1,9 @@
-# Mengunci token rahasia clasp agar tidak bocor ke publik
-.clasfrc.json
-clasp.json
+# Mengunci file log lokal agar tidak bocor ke GitHub publik
+*.log
+*.txt
+*.json
+!appsscript.json
 
-# Menyembunyikan database dan modul lokal
-*.db
-node_modules/
+# Mengunci file log spesifik di dalam folder audit
+04_LOG_SISTEM_FOLDER/*.log
+04_LOG_SISTEM_FOLDER/*.txt

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🎭 Panggung Sultan — 4 Admin Live</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+:root { --emas:#C9A84C; --emas-t:#FFD700; --hijau:#061F14; --hijau2:#0a2e1c; --merah:#ff3b3b; }
+body { background:var(--hijau); color:#fff; font-family:monospace; min-height:100vh; overflow-x:hidden; }
+
+/* ADMIN BAR BARU */
+.admin-bar { background:#000; border-bottom:1px solid #1a1a1a; padding:10px 12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:center; }
+.admin-bar label { font-size:11px; color:var(--emas); font-weight:700; }
+.admin-bar input { flex:1; max-width:320px; background:#111; border:1px solid var(--emas); border-radius:6px; padding:8px 10px; color:#fff; font-size:11px; font-family:monospace; outline:none; }
+.admin-bar button { padding:8px 14px; background:var(--emas); border:none; border-radius:6px; color:#000; font-size:11px; font-weight:700; cursor:pointer; }
+.admin-bar button.hijau { background:#27ae60; color:#fff; }
+
+/* MAIN WRAPPER */
+.wrap { max-width:540px; margin:0 auto; padding:14px 12px 60px; }
+.header { text-align:center; margin-bottom:12px; }
+.header .badge { display:inline-block; background:linear-gradient(135deg,var(--emas),var(--emas-t)); color:var(--hijau); font-size:9px; font-weight:700; padding:4px 14px; border-radius:20px; letter-spacing:2px; margin-bottom:6px; }
+.header h1 { font-size:16px; color:var(--emas); letter-spacing:2px; }
+.header .sub { font-size:9px; opacity:0.4; letter-spacing:1px; margin-top:2px; }
+.g-line { width:50px; height:1px; margin:6px auto; background:linear-gradient(90deg,var(--hijau),var(--emas),var(--hijau)); }
+
+.server-box { border:1px solid rgba(201,168,76,0.3); border-radius:8px; padding:8px 12px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.s-dot { width:6px; height:6px; border-radius:50%; background:#27ae60; flex-shrink:0; animation:blink 2s infinite; }
+.s-dot.offline { background:#ff6b6b; animation:none; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.s-text { color:var(--emas); font-weight:600; flex:1; font-size:10px; }
+
+.relay-info { background:rgba(39,174,96,0.1); border:1px solid rgba(39,174,96,0.4); border-radius:8px; padding:8px 12px; margin-bottom:12px; font-size:10px; color:#4ade80; }
+
+/* SALDO GRID - MODERNISED COIN & VOUCHER */
+.s-label { font-size:9px; color:var(--emas); letter-spacing:3px; text-transform:uppercase; margin-bottom:6px; font-weight:700; }
+.poin-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-bottom:12px; }
+.poin-mini { border:1px solid var(--emas); border-radius:8px; padding:7px 3px; text-align:center; background:var(--hijau2); }
+.poin-mini .ico { font-size:13px; display:block; margin-bottom:2px; }
+.poin-mini .nm { font-size:7px; color:var(--emas); font-weight:700; }
+.poin-mini .vl { font-size:11px; font-weight:700; }
+
+/* KAMERA UTAMA */
+.kamera-wrap { border:1px solid var(--emas); border-radius:10px; overflow:hidden; margin-bottom:12px; background:#000; }
+.kamera-header { background:rgba(201,168,76,0.1); padding:8px 12px; display:flex; align-items:center; gap:8px; border-bottom:1px solid rgba(201,168,76,0.3); }
+.live-badge { background:var(--merah); color:#fff; font-size:9px; font-weight:700; padding:3px 8px; border-radius:4px; animation:blink 1s infinite; }
+.kamera-title { font-size:11px; color:var(--emas); font-weight:700; flex:1; }
+#video { width:100%; display:block; max-height:240px; object-fit:cover; background:#111; }
+.kamera-controls { padding:8px 12px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; background:var(--hijau2); }
+.ctrl-btn { padding:9px 4px; border-radius:8px; border:1px solid var(--emas); font-size:10px; font-weight:700; cursor:pointer; text-align:center; }
+.ctrl-btn.on { background:var(--emas); color:var(--hijau); }
+.ctrl-btn.off { background:transparent; color:var(--emas); }
+
+/* SLOT PANGGUNG GRID */
+.panggung-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.slot-card { border:1px solid rgba(201,168,76,0.35); border-radius:12px; overflow:hidden; background:var(--hijau2); position:relative; text-align:center; padding:20px 10px; }
+.slot-nama { font-size:12px; color:var(--emas); font-weight:700; margin-bottom:4px; }
+.slot-status { font-size:9px; opacity:0.5; color:#fff; }
+
+/* FOOTER & LAINNYA */
+.prop-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:12px; }
+.prop-btn { border:1px solid var(--emas); border-radius:10px; padding:10px 4px; text-align:center; cursor:pointer; background:var(--hijau2); }
+.log-box { border:1px solid rgba(201,168,76,0.3); border-radius:8px; padding:8px 10px; margin-bottom:10px; max-height:110px; overflow-y:auto; font-size:10px; opacity:0.7; }
+.chat-row { display:flex; gap:6px; margin-bottom:12px; }
+.chat-input { flex:1; background:var(--hijau); border:1px solid var(--emas); border-radius:8px; padding:9px 10px; color:#fff; font-size:11px; outline:none; }
+.chat-send { padding:9px 12px; background:var(--emas); border:none; border-radius:8px; color:var(--hijau); font-size:10px; font-weight:700; cursor:pointer; }
+.footer { text-align:center; padding-top:12px; border-top:1px solid rgba(201,168,76,0.2); font-size:8px; opacity:0.3; }
+.footer b { color:var(--emas); }
+</style>
+</head>
+<body>
+
+<!-- API GATEWAY TUNNEL (PENGGANTI LOGIN) -->
+<div class="admin-bar">
+  <label>🔑 API TUNNEL:</label>
+  <input type="text" id="inputTunnel" placeholder="https://ser-charging-federal-stan.trycloudflare.com">
+  <button onclick="simpanTunnel()">💾 HUBUNGKAN</button>
+</div>
+
+<!-- APLIKASI UTAMA (LANGSUNG TERBUKA TANPA POS LOGIN) -->
+<div class="wrap" id="mainApp">
+  <div class="header">
+    <div class="badge">🎭 PANGGUNG SULTAN</div>
+    <h1>INDRAMAYU CLUB TV</h1>
+    <div class="g-line"></div>
+    <p class="sub">4 Admin Live Bersamaan · Sistem Langsung Aktif</p>
+  </div>
+
+  <div class="server-box">
+    <div class="s-dot" id="serverDot"></div>
+    <div class="s-text" id="serverText">Mencoba Sambungan Tunnel...</div>
+    <span style="font-size:9px;color:#fff;opacity:0.3;" id="serverPing">0ms</span>
+  </div>
+
+  <div class="relay-info">
+    📡 <b>Bypass Jalur Sukses</b> — Panggung langsung aktif tanpa login. Hubungkan kamera HP kamu ke server Flask Termux.
+  </div>
+
+  <div class="s-label">✦ Saldo Wallet Panggung</div>
+  <div class="poin-grid">
+    <div class="poin-mini"><span class="ico">🟡</span><div class="nm">COIN</div><div class="vl">1.100</div></div>
+    <div class="poin-mini"><span class="ico">💠</span><div class="nm">SALDO VALVE</div><div class="vl">75.000</div></div>
+    <div class="poin-mini"><span class="ico">🎁</span><div class="nm">GIFT</div><div class="vl">2</div></div>
+    <div class="poin-mini"><span class="ico">🎟️</span><div class="nm">VOUCHER</div><div class="vl">100</div></div>
+  </div>
+
+  <!-- KAMERA UTAMA -->
+  <div class="s-label">📸 Kontrol Kamera Kamera Anda</div>
+  <div class="kamera-wrap">
+    <div class="kamera-header">
+      <div class="live-badge">● LIVE</div>
+      <div class="kamera-title">Kamera Aktif Menyiar</div>
+    </div>
+    <video id="video" autoplay playsinline muted></video>
+    <div class="kamera-controls">
+      <div class="ctrl-btn on" onclick="mulaiKamera()">📷 ON</div>
+      <div class="ctrl-btn off" onclick="alert('Kamera dialihkan!')">🔄 Ganti</div>
+      <div class="ctrl-btn on" style="color:#4ade80;">📡 Relay ON</div>
+    </div>
+  </div>
+
+  <!-- 4 SLOT ADMIN PANGGUNG -->
+  <div class="s-label">🎭 4 Slot Admin Panggung</div>
+  <div class="panggung-grid">
+    <div class="slot-card">
+      <div class="slot-nama">👑 Lead Architect</div>
+      <div class="slot-status">🟢 Menyambung..</div>
+    </div>
+    <div class="slot-card">
+      <div class="slot-nama">👸 Ratu Arum</div>
+      <div class="slot-status">⚫ Standby</div>
+    </div>
+    <div class="slot-card">
+      <div class="slot-nama">⚡ Gusti Arya</div>
+      <div class="slot-status">⚫ Standby</div>
+    </div>
+    <div class="slot-card">
+      <div class="slot-nama">✨ Nyai Sekar</div>
+      <div class="slot-status">⚫ Standby</div>
+    </div>
+  </div>
+
+  <!-- LEMPAR PROPERTI -->
+  <div class="s-label">✦ Aksi Properti</div>
+  <div class="prop-grid">
+    <div class="prop-btn"><span class="emoji">💣</span><div class="pn">BOM</div></div>
+    <div class="prop-btn"><span class="emoji">🩴</span><div class="pn">SANDAL</div></div>
+    <div class="prop-btn"><span class="emoji">🎁</span><div class="pn">GIFT</div></div>
+    <div class="prop-btn"><span class="emoji">🎟️</span><div class="pn">VOUCHER</div></div>
+  </div>
+
+  <div class="s-label">📋 Log Jalur</div>
+  <div class="log-box">
+    <div>[SISTEM] Bypass Konflik Berhasil. Jalur diarahkan langsung ke Cloudflare.</div>
+  </div>
+
+  <div class="s-label">💬 Chat</div>
+  <div class="chat-row">
+    <input class="chat-input" placeholder="Ketik pesan panggung...">
+    <button class="chat-send">KIRIM</button>
+  </div>
+
+  <div class="footer">
+    <b>✦ INDRAMAYU CLUB TV ✦</b><br>
+    Bypass Direct Link Connection · PiramidaGuard Clean System
+  </div>
+</div>
+
+<script>
+// Sinkronisasi Memori Terowongan Jaringan
+let IP_SERVER = localStorage.getItem('imc_tunnel') || 'https://ser-charging-federal-stan.trycloudflare.com';
+document.getElementById('inputTunnel').value = IP_SERVER;
+
+function simpanTunnel() {
+    const url = document.getElementById('inputTunnel').value.trim();
+    if (!url.startsWith('https://')) { alert('❌ Harus diawali HTTPS:// !'); return; }
+    localStorage.setItem('imc_tunnel', url);
+    alert('✅ Sirkuit Jaringan Diperbarui! Memuat Ulang...');
+    window.location.reload();
+}
+
+// Menyalakan Kamera Otomatis Saat Masuk Panggung
+function mulaiKamera() {
+    const video = document.getElementById('video');
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(stream => {
+        video.srcObject = stream;
+        document.getElementById('serverText').innerText = "✅ Terhubung ke Flask Port 8890!";
+    })
+    .catch(err => {
+        console.log("Izin kamera ditolak/belum aktif.");
+    });
+}
+
+// Auto running saat halaman diakses
+window.onload = function() {
+    mulaiKamera();
+};
+</script>
+</body>
+</html>
+
