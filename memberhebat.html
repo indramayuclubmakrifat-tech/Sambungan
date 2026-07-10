@@ -206,14 +206,6 @@ body { background:var(--hijau); color:#fff; font-family:monospace; min-height:10
     </div>
   </div>
 
-  <div class="s-label">✦ Saldo Poin</div>
-  <div class="poin-grid">
-    <div class="poin-mini"><span class="ico">🟡</span><div class="nm">KARA</div><div class="vl" id="saldoKara">0</div></div>
-    <div class="poin-mini"><span class="ico">💠</span><div class="nm">Rp NUR</div><div class="vl" id="saldoNur">0</div></div>
-    <div class="poin-mini"><span class="ico">🎁</span><div class="nm">GifNur</div><div class="vl" id="saldoGif">0</div></div>
-    <div class="poin-mini"><span class="ico">🎟️</span><div class="nm">VchNur</div><div class="vl" id="saldoVch">0</div></div>
-  </div>
-
   <!-- KAMERA SENDIRI -->
   <div class="s-label">📸 Kamera Anda</div>
   <div class="kamera-wrap">
@@ -236,17 +228,17 @@ body { background:var(--hijau); color:#fff; font-family:monospace; min-height:10
   <div class="s-label">🎭 4 Admin Panggung — Live Bersamaan</div>
   <div class="panggung-grid" id="panggungGrid"></div>
 
-  <!-- PROPERTI -->
+  <!-- PROPERTI (gratis, murni animasi reaksi — tanpa nilai tukar) -->
   <div class="s-label">✦ Lempar Properti</div>
   <div class="prop-grid">
-    <div class="prop-btn" onclick="lempar(event,'💣','Bom',50000,'nur')"><span class="emoji">💣</span><div class="pn">BOM</div><div class="pv">50K NUR</div></div>
-    <div class="prop-btn" onclick="lempar(event,'🩴','Sandal',25000,'nur')"><span class="emoji">🩴</span><div class="pn">SANDAL</div><div class="pv">25K NUR</div></div>
-    <div class="prop-btn" onclick="lempar(event,'🎁','GifNur',1,'gif')"><span class="emoji">🎁</span><div class="pn">GIFNUR</div><div class="pv">1 Gif</div></div>
-    <div class="prop-btn" onclick="lempar(event,'🎟️','Voucher',1,'vch')"><span class="emoji">🎟️</span><div class="pn">VOUCHER</div><div class="pv">1 Vch</div></div>
-    <div class="prop-btn" onclick="lempar(event,'💐','Bunga',5000,'nur')"><span class="emoji">💐</span><div class="pn">BUNGA</div><div class="pv">5K NUR</div></div>
-    <div class="prop-btn" onclick="lempar(event,'👑','Mahkota',100000,'kara')"><span class="emoji">👑</span><div class="pn">MAHKOTA</div><div class="pv">100K KARA</div></div>
-    <div class="prop-btn" onclick="lempar(event,'🌟','Bintang',10000,'nur')"><span class="emoji">🌟</span><div class="pn">BINTANG</div><div class="pv">10K NUR</div></div>
-    <div class="prop-btn" onclick="lempar(event,'🎆','Kembang',15000,'nur')"><span class="emoji">🎆</span><div class="pn">KEMBANG</div><div class="pv">15K NUR</div></div>
+    <div class="prop-btn" onclick="lempar(event,'💣','Bom')"><span class="emoji">💣</span><div class="pn">BOM</div></div>
+    <div class="prop-btn" onclick="lempar(event,'🩴','Sandal')"><span class="emoji">🩴</span><div class="pn">SANDAL</div></div>
+    <div class="prop-btn" onclick="lempar(event,'🎁','Gift')"><span class="emoji">🎁</span><div class="pn">GIFT</div></div>
+    <div class="prop-btn" onclick="lempar(event,'💐','Bunga')"><span class="emoji">💐</span><div class="pn">BUNGA</div></div>
+    <div class="prop-btn" onclick="lempar(event,'👑','Mahkota')"><span class="emoji">👑</span><div class="pn">MAHKOTA</div></div>
+    <div class="prop-btn" onclick="lempar(event,'🌟','Bintang')"><span class="emoji">🌟</span><div class="pn">BINTANG</div></div>
+    <div class="prop-btn" onclick="lempar(event,'🎆','Kembang')"><span class="emoji">🎆</span><div class="pn">KEMBANG</div></div>
+    <div class="prop-btn" onclick="lempar(event,'❤️','Cinta')"><span class="emoji">❤️</span><div class="pn">CINTA</div></div>
   </div>
 
   <div class="s-label">📋 Log</div>
@@ -275,10 +267,10 @@ body { background:var(--hijau); color:#fff; font-family:monospace; min-height:10
    CONFIG — 4 ADMIN YANG NAIK PANGGUNG
    ══════════════════════════════════════════════ */
 const ADMIN_4 = [
-  { id:'M001', pass:'nur001', nama:'Raden Agung Nur',    avatar:'👑', level:'SULTAN SUPREME', kara:1250, nur:87500, gif:3, vch:2 },
-  { id:'M002', pass:'nur002', nama:'Ratu Arum Makrifat', avatar:'👸', level:'SULTAN SUPREME', kara:1100, nur:75000, gif:2, vch:1 },
-  { id:'M003', pass:'nur003', nama:'Gusti Arya',         avatar:'🤴', level:'SULTAN VIP',     kara:800,  nur:56000, gif:2, vch:1 },
-  { id:'M004', pass:'nur004', nama:'Nyai Sekar',         avatar:'💎', level:'SULTAN VIP',     kara:700,  nur:48000, gif:1, vch:1 },
+  { id:'M001', pass:'nur001', nama:'Raden Agung Nur',    avatar:'👑', level:'SULTAN SUPREME' },
+  { id:'M002', pass:'nur002', nama:'Ratu Arum Makrifat', avatar:'👸', level:'SULTAN SUPREME' },
+  { id:'M003', pass:'nur003', nama:'Gusti Arya',         avatar:'🤴', level:'SULTAN VIP'     },
+  { id:'M004', pass:'nur004', nama:'Nyai Sekar',         avatar:'💎', level:'SULTAN VIP'     },
 ];
 
 let IP_SERVER = localStorage.getItem('imc_tunnel') || 'https://guarantees-evident-responding-optimize.trycloudflare.com';
@@ -347,20 +339,12 @@ function masukApp(mode) {
   document.getElementById('memberLevel').textContent   = memberAktif.level;
   document.getElementById('badgeLevel').textContent    = memberAktif.level;
   
-  updateSaldo(); 
   renderSlot(); 
   cekServer();
   mulaiRefreshFrame(); // Jalankan penarikan frame 2 detik sekali
   
   addLog('SISTEM', `${memberAktif.nama} masuk panggung · ${mode}`);
   toast(`🎭 Selamat datang ${memberAktif.nama}!`);
-}
-
-function updateSaldo() {
-  document.getElementById('saldoKara').textContent = memberAktif.kara.toLocaleString('id');
-  document.getElementById('saldoNur').textContent  = memberAktif.nur.toLocaleString('id');
-  document.getElementById('saldoGif').textContent  = memberAktif.gif;
-  document.getElementById('saldoVch').textContent  = memberAktif.vch;
 }
 
 async function cekServer() {
@@ -509,6 +493,34 @@ function setSlotLive(id, live) {
   if (st)    { st.textContent = live ? '🔴 LIVE' : '⚫ Standby'; st.style.color = live?'#ff3b3b':''; }
 }
 
+// ── LEMPAR PROPERTI — gratis, murni animasi reaksi ke panggung ──
+function lempar(ev, emoji, nama) {
+  const btn = ev.currentTarget.getBoundingClientRect();
+  const tx = (Math.random() - 0.5) * 200;
+  const ty = -(150 + Math.random() * 150);
+
+  const fly = document.createElement('div');
+  fly.className = 'prop-fly';
+  fly.textContent = emoji;
+  fly.style.left = btn.left + btn.width / 2 + 'px';
+  fly.style.top  = btn.top + 'px';
+  fly.style.setProperty('--tx', tx + 'px');
+  fly.style.setProperty('--ty', ty + 'px');
+  document.body.appendChild(fly);
+  setTimeout(() => fly.remove(), 1200);
+
+  const hit = document.createElement('div');
+  hit.className = 'hit-fx';
+  hit.textContent = emoji;
+  hit.style.left = '50%';
+  hit.style.top = '40%';
+  document.body.appendChild(hit);
+  setTimeout(() => hit.remove(), 600);
+
+  addLog('PROPERTI', `${memberAktif.nama} melempar ${nama} ${emoji}`);
+  toast(`${emoji} ${nama} terkirim!`);
+}
+
 function kirimChat() {
   const inp=document.getElementById('chatInput'); if(!inp.value.trim()) return;
   addLog('CHAT',`${memberAktif.nama}: ${inp.value}`); inp.value='';
@@ -537,16 +549,6 @@ function toast(p) {
 
 
 
-<!-- SIRKUIT TOMBOL OTOMATIS BACK & NEXT -->
-<div class="sirkuit-navigasi" style="text-align: center; margin: 30px 0; padding: 10px;">
-    <button onclick="window.location.href='lab.html'" style="padding: 10px 20px; font-weight: bold; background-color: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
-        ⬅️ BACK (lab.html)
-    </button>
-    <button onclick="window.location.href='readme.html'" style="padding: 10px 20px; font-weight: bold; background-color: #2ecc71; color: white; border: none; border-radius: 5px; cursor: pointer;">
-        NEXT (readme.html) ➡️
-    </button>
-</div>
-<!-- END SIRKUIT TOMBOL OTOMATIS -->
-
 </body>
 </html>
+
